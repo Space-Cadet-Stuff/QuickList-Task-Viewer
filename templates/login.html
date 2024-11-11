@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-300">
+    <header class="bg-gray-800 text-gray-100 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/">
+                <img src="/images/icon.png" alt="To-Do List Icon" class="h-8 w-8 inline-block mr-2" style="transform: translateY(-4px);">
+                <h1 class="text-2xl font-bold inline-block align-baseline">To-Do List</h1>
+            </a>
+            <nav>
+                <a href="/signup" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 mx-2 px-4 py-2 rounded">Sign Up</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container mx-auto mt-10">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold mb-4 text-center underline">Sign In</h2>
+            <form action="/login" method="POST">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-400">Username</label>
+                    <input type="username" name="username" id="username" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-400">Password</label>
+                    <input type="password" name="password" id="password" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded">
+                </div>
+                <button type="submit" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 px-4 py-2 rounded">Sign In</button>
+            </form>
+        </div>
+    </main>
+</body>
