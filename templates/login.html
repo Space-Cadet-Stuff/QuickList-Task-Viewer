@@ -14,13 +14,19 @@
                     <h1 class="text-2xl font-bold inline-block align-baseline">To-Do List</h1>
                 </a>
                 <nav>
-                    <a href="/signup" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 mx-2 px-4 py-2 rounded">Sign Up</a>
+                    <a href="/signup" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 mx-2 px-4 py-2 rounded">
+                        <img src="/static/images/signup.png" alt="Sign Up Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);">
+                        Sign Up
+                    </a>
                 </nav>
             </div>
         </header>
         <main class="container mx-auto mt-10">
             <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-                <h2 class="text-4xl font-bold mb-4 text-center underline">Sign In</h2>
+                <h2 class="text-4xl font-bold mb-4 text-center">
+                    <img src="/static/images/login.png" alt="Log In Icon" class="h-12 w-12 inline-block mr-2" style="transform: translateY(-4px);">
+                    Log In
+                </h2>
                 <form action="/login" method="POST">
                     <div class="mb-4">
                         <label for="username" class="block text-gray-400">Username</label>
