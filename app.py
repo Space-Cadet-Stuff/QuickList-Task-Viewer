@@ -29,4 +29,8 @@ def signup():
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/create')
+def create():
+    return render_template('create.html')
+
 app.run(debug=True)
