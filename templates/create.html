@@ -22,7 +22,7 @@
                         <img src="/static/images/dashboard.png" alt="Dashboard Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);">
                         Dashboard
                     </a>
-                    <a href="/logout" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 mx-2 px-4 py-2 rounded">
+                    <a href="/" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 mx-2 px-4 py-2 rounded">
                         <img src="/static/images/logout.png" alt="Log Out Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);">
                         Log Out
                     </a>
@@ -38,7 +38,7 @@
                 <form action="/create" method="POST">
                     <div class="mb-4">
                         <label for="title" class="block text-gray-400">Title:</label>
-                        <input type="title" name="title" id="title" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded">
+                        <input type="title" name="title" id="title" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded" placeholder="Name your task">
                     </div>
                     <div class="flex mb-4 space-x-4">
                         <div class="w-1/2">
@@ -54,15 +54,13 @@
                             <label for="date" class="block text-gray-400">Date to Complete:</label>
                             <input type="date" name="date" id="date" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded">
                             <style>
-                                input[type="date"]::-webkit-calendar-picker-indicator {
-                                    filter: invert(1);
-                                }
+                                input[type="date"]::-webkit-calendar-picker-indicator {filter: invert(1);}
                             </style>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block text-gray-400">Description:</label>
-                        <textarea name="description" id="description" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded"></textarea>
+                        <textarea name="description" id="description" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded" placeholder="Give your task a description"></textarea>
                     </div>
                     <button type="submit" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 px-4 py-2 rounded">Create Task</button>
                 </form>
