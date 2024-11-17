@@ -1,4 +1,4 @@
-icon.png by Kiranshastry (https://www.flaticon.com/free-icon/clipboard_839860)
+icon.png and tabicon.png by Kiranshastry (https://www.flaticon.com/free-icon/clipboard_839860)
 create.png by Noplubery (https://www.flaticon.com/free-icon/tab_7588946)
 logout.png by SumberRejeki (https://www.flaticon.com/free-icon/logout_4400629)
 login.png by RIkas Dzihab (https://www.flaticon.com/free-icon/password_12606587)
