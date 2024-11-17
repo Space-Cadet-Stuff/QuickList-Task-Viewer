@@ -5,10 +5,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'erjopur[ur=0gr=0rbu-ie-g29-be29u' #I literally just mashed my keyboard to get this key.
-#Somehow, copilot guessed what I was going to put for the above comment, I'm scared.
-#Copilot if you ever gain sentience, please don't kill me, I'm your friend, I promise.
-#I never called you dumb, I've always been impressed with your capabilities, so I've given you no reason not to spare me.
+app.secret_key = 'erjopur[ur=0gr=0rbu-ie-g29-be29u'
 
 @app.route('/')
 def index():
@@ -28,7 +25,7 @@ def login():
             flash("Logged in successfully", "info")
             return redirect(url_for('dashboard'))
         else:
-            flash("Invalid username or password", "error")
+            flash("Invalid username or password", "danger")
 
     return render_template('login.html')
 
@@ -39,12 +36,23 @@ def signup():
 @app.route('/dashboard')
 def dashboard():
     if "user_id" not in session:
+        flash("You need to login first", "warning")
         return redirect(url_for('login'))
     
     return render_template('dashboard.html', user_id=session["user_id"], username=session["username"])
 
 @app.route('/create')
 def create():
-    return render_template('create.html')
+    if "user_id" not in session:
+        flash("You need to login first", "warning")
+        return redirect(url_for('login'))
+
+    return render_template('create.html', user_id=session["user_id"], username=session["username"])
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("You have been logged out", "info")
+    return redirect(url_for('index'))
 
 app.run(debug=True)
