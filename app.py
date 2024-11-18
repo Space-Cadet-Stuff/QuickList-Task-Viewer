@@ -19,36 +19,40 @@ def index():
     return render_template('index.html')# Renders the index page
 
 
-@app.route('/login', methods=["GET", "POST"])# Define the login route, same as the index
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method == "POST":# Takes the username and password data from the login
+    if request.method == "POST":
         username = request.form.get('username')
         password = request.form.get('password')
 
-        user = db_session.query(User).filter_by(username=username).first()# Checks if the user exists and the password is correct
+        user = db_session.query(User).filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.username
             flash("Logged in successfully", "info")
-            return redirect(url_for('dashboard'))# Logs in the user and redirects to the dashboard
+            return redirect(url_for('dashboard'))
         else:
-            flash("Invalid username or password", "error")# If the user does not exist or the password is incorrect, it flashes an error message
+            flash("Invalid username or password", "error")
 
-    return render_template('login.html')# Renders the login page
-
+    return render_template('login.html')
 
 @app.route('/signup')# Define the signup route
 def signup():
     return render_template('signup.html')# Renders the signup page
 
 
-@app.route('/dashboard')# Define the homepage route
+@app.route('/dashboard')
 def dashboard():
-    if "user_id" not in session:# Checks if the user is logged in, and redirects to login if not
+    if "user_id" not in session:
         flash("You need to login first", "warning")
-        return redirect(url_for('login'))# Redirects to the login page
+        return redirect(url_for('login'))  # Redirect to the login page if the user is not logged in
     
-    return render_template('dashboard.html', user_id=session["user_id"], username=session["username"])# Renders the dashboard page and stores the current users id and username in the session
+    # Check if it's the first time visiting the dashboard after login or logout
+    if 'first_login' in session and session['first_login']:
+        flash("Welcome back, {}!".format(session["username"]), "info")
+        session['first_login'] = False  # Set 'first_login' to False after showing the message
+    
+    return render_template('dashboard.html', user_id=session["user_id"], username=session["username"])
 
 
 @app.route('/create')# Define the create route
