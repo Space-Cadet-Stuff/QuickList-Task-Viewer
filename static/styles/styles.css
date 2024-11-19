@@ -22,3 +22,17 @@
     background-color: #ecc94b;
     color: #2d3748;
 }
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.alert {
+    cursor: pointer;
+}
