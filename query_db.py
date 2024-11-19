@@ -12,6 +12,6 @@ users = session.query(User).all()
 for user in users:
     print(f'User: {user.username}')
     for todo in user.todos:
-        print(f'Task: {todo.task} Done: {todo.done}')
+        print(f'Task: {todo.name} Done: {todo.done}')
 
 session.close()
