@@ -22,14 +22,16 @@ class User(Base):
 #ToDo model
 class ToDo(Base):
     __tablename__ = 'todos'
+
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    category = Column(String)
-    due = Column(Integer)
-    description = Column(String)
+    title = Column(String, nullable=False)
+    category = Column(String, nullable=False)
+    date = Column(String, nullable=False)
+    description = Column(String, nullable=True)
     done = Column(Boolean, default=False, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    user = relationship('User', back_populates='todos')
+
+    user = relationship("User", back_populates="todos")
 
 #Database setup
 engine = create_engine('sqlite:///todo.db')

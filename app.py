@@ -74,11 +74,30 @@ def dashboard():
     return render_template('dashboard.html', user_id=session["user_id"], username=session["username"])# Render the dashboard page and store the current user's id and username in the session
 
 
-@app.route('/create')# Define the create route
+@app.route('/create', methods=["GET", "POST"])# Define the create route
 def create():
     if "user_id" not in session:# Checks if the user is logged in, and redirects to login if not
         flash("You need to login first", "warning")
         return redirect(url_for('login'))# Redirects to the login page
+    
+    if request.method == "POST":# Extract data from the form
+        title = request.form.get('title')
+        category = request.form.get('category')
+        date = request.form.get('date')
+        description = request.form.get('description')
+
+        new_task = ToDo(# Create a new ToDo instance
+            title = title,
+            category = category,
+            date = date,
+            description = description,
+            user_id = session["user_id"]# Associate task with logged-in user
+        )
+
+        db_session.add(new_task)# Add to database and commit
+        db_session.commit()
+
+        flash("Task created successfully!", "success")
 
     return render_template('create.html', user_id=session["user_id"], username=session["username"])# Renders the create page and stores the current users id and username in the session
 
