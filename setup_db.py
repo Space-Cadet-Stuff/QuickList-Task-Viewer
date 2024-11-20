@@ -3,11 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
-#Base class for ORM models
-Base = declarative_base()
+Base = declarative_base()# Base class for ORM models
 
-#User model
-class User(Base):
+class User(Base):# User model
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True, nullable=False)
@@ -15,12 +13,10 @@ class User(Base):
     password = Column(String, nullable=False)
     todos = relationship('ToDo', back_populates='user')
 
-    #Method to check password
-    def check_password(self, password):
+    def check_password(self, password):# Method to check password
         return check_password_hash(self.password, password)
 
-#ToDo model
-class ToDo(Base):
+class ToDo(Base):# ToDo model
     __tablename__ = 'todos'
 
     id = Column(Integer, primary_key=True)
@@ -33,8 +29,7 @@ class ToDo(Base):
 
     user = relationship("User", back_populates="todos")
 
-#Database setup
-engine = create_engine('sqlite:///todo.db')
+engine = create_engine('sqlite:///todo.db')# Database setup
 
 Base.metadata.create_all(engine)
 
