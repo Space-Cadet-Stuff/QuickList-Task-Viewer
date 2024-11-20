@@ -23,6 +23,11 @@
     color: #2d3748;
 }
 
+.alert-success {
+    background-color: #48bb78;
+    color: #fff;
+}
+
 .fade-in {
     opacity: 1;
     transition: opacity 0.5s ease-in-out;

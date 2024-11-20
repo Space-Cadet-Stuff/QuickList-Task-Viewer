@@ -36,9 +36,29 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/signup')# Define the signup route
+@app.route('/signup', methods=["GET", "POST"])# Define the signup route
 def signup():
-    return render_template('signup.html')# Renders the signup page
+    if request.method == "POST":# Get form data
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        existing_user = db_session.query(User).filter((User.username == username) | (User.email == email)).first()# Check if username or email already exists
+        if existing_user:
+            flash("Username or email already exists. Please choose another.", "error")
+            return redirect(url_for('signup'))
+        
+        password = generate_password_hash(password)# Hash the password for security
+        
+        new_user = User(username = username, email = email, password = password)# Create a new user instance
+        
+        db_session.add(new_user)# Add and commit the new user to the database
+        db_session.commit()
+        
+        flash("Account created successfully! Please log in.", "success")
+        return redirect(url_for('login'))
+    
+    return render_template('signup.html')# Render the signup page for GET requests
 
 
 @app.route('/dashboard')

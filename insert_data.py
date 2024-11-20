@@ -10,9 +10,9 @@ session = Session()
 
 #Insert users with hashed passwords
 user1 = User(username='john_doe', email='johndoe@email.com',
-password=generate_password_hash('password123'))
+password = generate_password_hash('password123'))
 user2 = User(username='jane_doe', email='janedoe@email.com',
-password=generate_password_hash('mypassword'))
+password = generate_password_hash('mypassword'))
 
 session.add(user1)
 session.add(user2)
