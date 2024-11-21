@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignK
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.types import DateTime
 
 Base = declarative_base()# Base class for ORM models
 
@@ -22,7 +23,7 @@ class ToDo(Base):# ToDo model
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
     category = Column(String, nullable=False)
-    date = Column(String, nullable=False)
+    date = Column(DateTime, nullable=False)
     description = Column(String, nullable=True)
     done = Column(Boolean, default=False, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
