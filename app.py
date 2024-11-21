@@ -115,7 +115,7 @@ def logout():
     return redirect(url_for('index'))# Redirects to the index page
 
 
-@app.template_filter('days_left')
+@app.template_filter('days_left')# Custom Jinja filter to calculate the number of days left for a task
 def days_left(due_date):
     today = datetime.now()  # Get today's date and time
     delta = due_date - today  # Calculate the difference
