@@ -78,7 +78,7 @@ def dashboard():
 def create():
     if "user_id" not in session:# Checks if the user is logged in, and redirects to login if not
         flash("You need to login first", "warning")
-        return redirect(url_for('login'))# Redirects to the login page
+        return redirect(url_for('login'))# Redirects to the login pages
     
     if request.method == "POST":# Extract data from the form
         title = request.form.get('title')
