@@ -182,6 +182,40 @@ def incomplete(task_id):
     return redirect(url_for('dashboard'))
 
 
+@app.route('/edit/<int:task_id>', methods=["GET", "POST"])# Define the edit route
+def edit(task_id):
+    if "user_id" not in session:# Ensure the user is logged in
+        flash("You need to login first", "warning")
+        return redirect(url_for('login'))# Redirect to login if not logged in
+
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()# Fetch the task from the database
+
+    if not task:# If the task doesn't exist or the user doesn't have permission
+        flash("Task not found or you do not have permission to edit it", "error")
+        return redirect(url_for('dashboard'))  # Redirect to the dashboard
+
+    if request.method == "POST":# If the form is submitted
+        title = request.form.get('title')
+        category = request.form.get('category')
+        date_str = request.form.get('date')
+        description = request.form.get('description')
+
+        date = datetime.strptime(date_str, "%Y-%m-%d")# Convert the date string to a datetime object
+
+        task.title = title# Update the task attributes
+        task.category = category
+        task.date = date
+        task.description = description
+
+        db_session.commit()# Commit the changes to the database
+
+        flash("Task updated successfully!", "success")
+        return redirect(url_for('dashboard'))# Redirect to the dashboard
+
+    return render_template('edit.html', task=task)# Render the edit form with the task data
+
+
+
 @app.template_filter('days_left')# Custom Jinja filter to calculate the number of days left for a task
 def days_left(due_date):
     today = datetime.now()  # Get today's date and time

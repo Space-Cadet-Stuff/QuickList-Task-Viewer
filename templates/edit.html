@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Task View</title>
+        <title>Edit Task</title>
         <link rel="icon" href="/static/images/tabicon.png" type="image/png">
         <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet">
     </head>
@@ -33,44 +33,38 @@
         <main class="container mx-auto mt-10">
             <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <h2 class="text-4xl font-bold mb-4 text-center">
-                    <img src="/static/images/icon.png" alt="Task Icon" class="h-12 w-12 inline-block mr-2" style="transform: translateY(-4px);">
-                    Task Details:
+                    <img src="/static/images/edit.png" alt="Edit Task Icon" class="h-12 w-12 inline-block mr-2" style="transform: translateY(-4px);">
+                    Edit Task
                 </h2>
-                <div class="text-gray-300 text-lg leading-relaxed space-y-2">
-                    <p class="text-3xl font-semibold"><strong>Title:</strong> {{ task.title }}</p>
-                    <p class="text-lg"><strong>Category:</strong> {{ task.category }}</p>
-                    <p class="text-lg"><strong>Due Date:</strong> {{ task.date.strftime('%Y-%m-%d') }}</p>
-                    <p> 
-                        {% if task.date|days_left == 'Overdue' %}
-                            <span class="text-red-400 font-bold">Overdue</span>
-                        {% elif task.date|days_left == 'Today' %}
-                            <span class="text-yellow-400 font-bold">Due Today</span>
-                        {% else %}
-                            <p class="text-lg"><strong>Due in:</strong> {{ task.date|days_left }} day(s)</p>
-                        {% endif %}
-                    </p>
-                    <p class="text-lg"><strong>Description:</strong> {{ task.description }}</p>
-                </div>
-                <div class="mt-6 flex justify-center space-x-4">
-                    {% if task.done %}
-                        <!-- If task is completed, show "Mark as Incomplete" button -->
-                        <form action="/incomplete/{{ task.id }}" method="POST" class="inline">
-                            <button type="submit" class="bg-yellow-600 text-gray-300 hover:bg-yellow-500 active:bg-yellow-400 px-4 py-2 rounded">Mark as Incomplete</button>
-                        </form>
-                    {% else %}
-                        <!-- If task is not completed, show "Complete" button -->
-                        <form action="/complete/{{ task.id }}" method="POST" class="inline">
-                            <button type="submit" class="bg-green-600 text-gray-300 hover:bg-green-500 active:bg-green-400 px-4 py-2 rounded">Complete</button>
-                        </form>
-                    {% endif %}
-                    
-                    <form action="/edit/{{ task.id }}" method="GET" class="inline">
-                        <button type="submit" class="bg-blue-600 text-gray-300 hover:bg-blue-500 active:bg-blue-400 px-4 py-2 rounded">Edit</button>
-                    </form>
-                    <form action="/delete/{{ task.id }}" method="POST" class="inline">
-                        <button type="submit" class="bg-red-600 text-gray-300 hover:bg-red-500 active:bg-red-400 px-4 py-2 rounded">Delete</button>
-                    </form>
-                </div>
+                <form action="{{ url_for('edit', task_id=task.id) }}" method="POST">
+                    <div class="mb-4">
+                        <label for="title" class="block text-gray-400">Title:</label>
+                        <input type="text" name="title" id="title" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded" placeholder="Name your task" value="{{ task.title }}">
+                    </div>
+                    <div class="flex mb-4 space-x-4">
+                        <div class="w-1/2">
+                            <label for="category" class="block text-gray-400">Select Category:</label>
+                            <select name="category" id="category" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded">
+                                <option value="Other" {% if task.category == 'Other' %}selected{% endif %}>Other</option>
+                                <option value="School" {% if task.category == 'School' %}selected{% endif %}>School</option>
+                                <option value="Work" {% if task.category == 'Work' %}selected{% endif %}>Work</option>
+                                <option value="Personal" {% if task.category == 'Personal' %}selected{% endif %}>Personal</option>
+                            </select>
+                        </div>
+                        <div class="w-1/2">
+                            <label for="date" class="block text-gray-400">Date to Complete:</label>
+                            <input type="date" name="date" id="date" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded" value="{{ task.date.strftime('%Y-%m-%d') }}">
+                            <style>
+                                input[type="date"]::-webkit-calendar-picker-indicator {filter: invert(1);}
+                            </style>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-gray-400">Description:</label>
+                        <textarea name="description" id="description" class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded" placeholder="Give your task a description">{{ task.description }}</textarea>
+                    </div>
+                    <button type="submit" class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 px-4 py-2 rounded">Save Changes</button>
+                </form>
             </div>
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -89,7 +83,7 @@
     <footer class="bg-gray-800 text-gray-100 p-4 mt-10 fixed bottom-0 w-full">
         <p>
             <a href="https://github.com/Space-Cadet-Stuff/To-do-Program" class="text-gray-300 hover:text-gray-400">
-                <img src="/static/images/github.png" alt="GitHub Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);"> Visit Development page on GitHub!
+                <img src="/static/images/github.png" alt="GitHub Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);"> Visit Development page on github!
             </a>
         </p>
     </footer>
