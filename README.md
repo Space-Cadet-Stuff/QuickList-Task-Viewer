@@ -4,6 +4,38 @@
 A Project to create a To-Do list application for my first HSC task in Software Engineering.
 
 
+## Features
+
+- Account Creation
+- Secured Passwords
+- Create/Edit tasks
+- Date tracking on tasks
+- Delete tasks
+- Mark tasks as complete
+- Intuitive, simple UI
+- Built for web (Cross-Platform)
+
+
+## Dependencies
+
+Install these libraries with pip before running the project
+
+- PC
+```bash
+  pip install Flask
+  pip install sqlalchemy
+  pip install flask
+  pip install werkzeug
+```
+- Mac
+```bash
+  pip3 install Flask
+  pip3 install sqlalchemy
+  pip3 install flask
+  pip3 install werkzeug
+```
+
+    
 ## Acknowledgements
 
  - [icon.png and tabicon.png by Kiranshastry](https://www.flaticon.com/free-icon/clipboard_839860)
