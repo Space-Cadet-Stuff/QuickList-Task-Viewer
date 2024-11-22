@@ -115,12 +115,48 @@ def logout():
     return redirect(url_for('index'))# Redirects to the index page
 
 
+@app.route('/delete/<task_id>', methods=["GET"])
+def delete(task_id):
+    if "user_id" not in session:
+        flash("You need to login first", "warning")
+        return redirect(url_for('login'))
+    
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
+    if task:
+        db_session.delete(task)
+        db_session.commit()
+        flash("Task deleted successfully!", "success")
+    else:
+        flash("Task not found or you do not have permission to delete it", "error")
+    
+    return redirect(url_for('dashboard'))
+
+
+@app.route('/complete/<task_id>', methods=["GET"])
+def complete(task_id):
+    if "user_id" not in session:
+        flash("You need to login first", "warning")
+        return redirect(url_for('login'))
+    
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
+    if task:
+        task.done = True
+        db_session.commit()
+        flash("Task marked as completed!", "success")
+    else:
+        flash("Task not found or you do not have permission to complete it", "error")
+    
+    return redirect(url_for('dashboard'))
+
+
 @app.template_filter('days_left')# Custom Jinja filter to calculate the number of days left for a task
 def days_left(due_date):
     today = datetime.now()  # Get today's date and time
     delta = due_date - today  # Calculate the difference
-    if delta.days >= 0:  # If the due date is in the future
+    if delta.days > 0:  # If the due date is in the future
         return delta.days  # Return the number of days left
+    elif delta.days+1 == 0:  # If the due date is today
+        return "Today"
     else:  # If the task is overdue
         return "Overdue"
 
