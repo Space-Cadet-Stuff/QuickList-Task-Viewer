@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>QuickList</title>
+        <title>Task View</title>
         <link rel="icon" href="/static/images/tabicon.png" type="image/png">
         <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet">
     </head>
@@ -33,46 +33,44 @@
         <main class="container mx-auto mt-10">
             <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <h2 class="text-4xl font-bold mb-4 text-center">
-                    <img src="/static/images/dashboard.png" alt="Dashboard Icon" class="h-12 w-12 inline-block mr-2" style="transform: translateY(-4px);">
-                    Dashboard
+                    <img src="/static/images/icon.png" alt="Task Icon" class="h-12 w-12 inline-block mr-2" style="transform: translateY(-4px);">
+                    Task Details:
                 </h2>
-                <p class="text-gray-400 text-center">Welcome, {{ username }}, to QuickList! View your tasks or create a new one.</p>
-                <br>
-                <h3 class="text-2xl font-bold mb-4 text-center">Your To-Do List:</h3>
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {% for todo in todos %}
-                    <li class="flex justify-between items-center 
-                        {% if todo.done == False and todo.date|days_left == 'Overdue' %}
-                            bg-red-600 text-white animate-pulse
-                        {% elif todo.done == False and todo.date|days_left == 'Today' %}
-                            border-4 border-yellow-400 bg-gray-600
-                        {% elif todo.done == True %}
-                            bg-green-600 text-gray-300
+                <div class="text-gray-300 text-lg leading-relaxed space-y-2">
+                    <p class="text-3xl font-semibold"><strong>Title:</strong> {{ task.title }}</p>
+                    <p class="text-xl"><strong>Category:</strong> {{ task.category }}</p>
+                    <p class="text-lg"><strong>Due Date:</strong> {{ task.date.strftime('%Y-%m-%d') }}</p>
+                    <p> 
+                        {% if task.date|days_left == 'Overdue' %}
+                            <span class="text-red-400 font-bold">Overdue</span>
+                        {% elif task.date|days_left == 'Today' %}
+                            <span class="text-yellow-400 font-bold">Due today</span>
                         {% else %}
-                            bg-gray-600 text-gray-300
+                            Due in <span class="font-medium">{{ task.date|days_left }}</span> day(s)
                         {% endif %}
-                        p-4 rounded mb-2">
-                        <div class="flex flex-col">
-                            <h4 class="text-2xl font-bold mb-2">{{ todo.title }}</h4>
-                            <p class="text-gray-400"> 
-                                {% if todo.date|days_left == 'Overdue' %}
-                                    <span class="text-red-400">Overdue</span>
-                                {% elif todo.date|days_left == 'Today' %}
-                                    <span class="text-yellow-400">Due Today</span>
-                                {% else %}
-                                    <span class="text-gray-400">Due in {{ todo.date|days_left }} day(s)</span>
-                                {% endif %}
-                            </p>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="/task/{{ todo.id }}" 
-                               class="bg-gray-700 text-gray-300 hover:bg-gray-600 active:bg-gray-500 mx-2 px-4 py-2 rounded">
-                                More
-                            </a>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>                     
+                    </p>
+                    <p class="text-lg"><strong>Description:</strong> {{ task.description }}</p>
+                </div>
+                <div class="mt-6 flex justify-center space-x-4">
+                    {% if task.done %}
+                        <!-- If task is completed, show "Mark as Incomplete" button -->
+                        <form action="/incomplete/{{ task.id }}" method="POST" class="inline">
+                            <button type="submit" class="bg-yellow-600 text-gray-300 hover:bg-yellow-500 active:bg-yellow-400 px-4 py-2 rounded">Mark as Incomplete</button>
+                        </form>
+                    {% else %}
+                        <!-- If task is not completed, show "Complete" button -->
+                        <form action="/complete/{{ task.id }}" method="POST" class="inline">
+                            <button type="submit" class="bg-green-600 text-gray-300 hover:bg-green-500 active:bg-green-400 px-4 py-2 rounded">Complete</button>
+                        </form>
+                    {% endif %}
+                    
+                    <form action="/edit/{{ task.id }}" method="GET" class="inline">
+                        <button type="submit" class="bg-blue-600 text-gray-300 hover:bg-blue-500 active:bg-blue-400 px-4 py-2 rounded">Edit</button>
+                    </form>
+                    <form action="/delete/{{ task.id }}" method="POST" class="inline">
+                        <button type="submit" class="bg-red-600 text-gray-300 hover:bg-red-500 active:bg-red-400 px-4 py-2 rounded">Delete</button>
+                    </form>
+                </div>
             </div>
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -85,17 +83,13 @@
             </div>
             {% endif %}
             {% endwith %}
-            <br>
-            <br>
-            <br>
-            <br>
         </main>
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     </body>
     <footer class="bg-gray-800 text-gray-100 p-4 mt-10 fixed bottom-0 w-full">
         <p>
             <a href="https://github.com/Space-Cadet-Stuff/To-do-Program" class="text-gray-300 hover:text-gray-400">
-                <img src="/static/images/github.png" alt="GitHub Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);"> Visit Development page on github!
+                <img src="/static/images/github.png" alt="GitHub Icon" class="h-6 w-6 inline-block mr-2" style="transform: translateY(-2px);"> Visit Development page on GitHub!
             </a>
         </p>
     </footer>

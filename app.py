@@ -115,36 +115,69 @@ def logout():
     return redirect(url_for('index'))# Redirects to the index page
 
 
-@app.route('/delete/<task_id>', methods=["GET"])
+@app.route('/delete/<task_id>', methods=["POST"])# Define the delete route
 def delete(task_id):
-    if "user_id" not in session:
+    if "user_id" not in session:# Check if the user is logged in
         flash("You need to login first", "warning")
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))# Redirect to the login page
     
-    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
-    if task:
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()# Check if the task exists and the user has permission to delete it
+    if task:# Deletes select task and flashes a success message
         db_session.delete(task)
         db_session.commit()
         flash("Task deleted successfully!", "success")
-    else:
+    else:# Flashes an error message if the task is not found or the user does not have permission to delete it
         flash("Task not found or you do not have permission to delete it", "error")
     
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('dashboard'))# Redirects to the dashboard
 
 
-@app.route('/complete/<task_id>', methods=["GET"])
+@app.route('/complete/<task_id>', methods=["POST"])# Define the complete route
 def complete(task_id):
-    if "user_id" not in session:
+    if "user_id" not in session:# Check if the user is logged in
         flash("You need to login first", "warning")
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))# Redirect to the login page
     
-    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
-    if task:
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()# Check if the task exists and the user has permission to complete it
+    if task:# Marks the task as completed and flashes a success message
         task.done = True
         db_session.commit()
         flash("Task marked as completed!", "success")
-    else:
+    else:# Flashes an error message if the task is not found or the user does not have permission to complete it
         flash("Task not found or you do not have permission to complete it", "error")
+    
+    return redirect(url_for('dashboard'))# Redirects to the dashboard
+
+
+@app.route('/task/<int:task_id>')
+def task(task_id):
+    if "user_id" not in session:  # Ensure the user is logged in
+        flash("You need to login first", "warning")
+        return redirect(url_for('login'))  # Redirect to login if not
+
+    # Fetch the task from the database
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
+    
+    if not task:  # Handle cases where the task is not found
+        flash("Task not found or you do not have permission to view it", "error")
+        return redirect(url_for('dashboard'))  # Redirect to the dashboard
+
+    return render_template('task.html', task=task)  # Render the task details page
+
+
+@app.route('/incomplete/<task_id>', methods=["POST"])  # New route for marking as incomplete
+def incomplete(task_id):
+    if "user_id" not in session:
+        flash("You need to login first", "warning")
+        return redirect(url_for('login'))
+
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
+    if task:
+        task.done = False  # Mark the task as incomplete
+        db_session.commit()
+        flash("Task marked as incomplete!", "success")
+    else:
+        flash("Task not found or you do not have permission to modify it", "error")
     
     return redirect(url_for('dashboard'))
 
@@ -159,5 +192,6 @@ def days_left(due_date):
         return "Today"
     else:  # If the task is overdue
         return "Overdue"
+
 
 app.run(debug=True)# Runs the app in debug mode
