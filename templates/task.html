@@ -41,10 +41,12 @@
                     <p class="text-lg"><strong>Category:</strong> {{ task.category }}</p>
                     <p class="text-lg"><strong>Due Date:</strong> {{ task.date.strftime('%Y-%m-%d') }}</p>
                     <p> 
-                        {% if task.date|days_left == 'Overdue' %}
-                            <span class="text-red-400 font-bold">Overdue</span>
+                        {% if task.date|days_left == 'Overdue' and task.done == True %}
+                            <span class="text-green-400 font-bold">Completed</span>
                         {% elif task.date|days_left == 'Today' %}
                             <span class="text-yellow-400 font-bold">Due Today</span>
+                        {% elif task.date|days_left == 'Overdue' %}
+                            <span class="text-red-400 font-bold">Overdue</span>
                         {% else %}
                             <p class="text-lg"><strong>Due in:</strong> {{ task.date|days_left }} day(s)</p>
                         {% endif %}

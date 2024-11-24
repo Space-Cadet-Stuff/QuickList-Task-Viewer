@@ -55,10 +55,12 @@
                         <div class="flex flex-col">
                             <h4 class="text-2xl font-bold mb-2">{{ todo.title }}</h4>
                             <p class="text-gray-400"> 
-                                {% if todo.date|days_left == 'Overdue' %}
+                                {% if todo.date|days_left == 'Overdue' and todo.done == False %}
                                     <span class="text-red-400">Overdue</span>
                                 {% elif todo.date|days_left == 'Today' %}
                                     <span class="text-yellow-400">Due Today</span>
+                                {% elif todo.date|days_left == 'Overdue' and todo.done == True %}
+                                    <span class="text-black">Completed</span>
                                 {% else %}
                                     <span class="text-gray-400">Due in {{ todo.date|days_left }} day(s)</span>
                                 {% endif %}
