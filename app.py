@@ -155,8 +155,7 @@ def task(task_id):
         flash("You need to login first", "warning")
         return redirect(url_for('login'))  # Redirect to login if not
 
-    # Fetch the task from the database
-    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()
+    task = db_session.query(ToDo).filter_by(id=task_id, user_id=session["user_id"]).first()# Fetch the task from the database
     
     if not task:  # Handle cases where the task is not found
         flash("Task not found or you do not have permission to view it", "error")
