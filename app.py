@@ -215,7 +215,6 @@ def edit(task_id):
     return render_template('edit.html', task=task)# Render the edit form with the task data
 
 
-
 @app.template_filter('days_left')# Custom Jinja filter to calculate the number of days left for a task
 def days_left(due_date):
     today = datetime.now()  # Get today's date and time
