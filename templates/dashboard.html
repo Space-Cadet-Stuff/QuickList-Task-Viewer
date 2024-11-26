@@ -57,7 +57,9 @@
                             <p class="text-gray-400"> 
                                 {% if todo.date|days_left == 'Overdue' and todo.done == False %}
                                     <span class="text-red-400">Overdue</span>
-                                {% elif todo.date|days_left == 'Today' %}
+                                {% elif todo.date|days_left == 'Today' and todo.done == True %}
+                                <span class="text-black">Completed</span>
+                                {% elif todo.date|days_left == 'Today' and todo.done == False %}
                                     <span class="text-yellow-400">Due Today</span>
                                 {% elif todo.date|days_left == 'Overdue' and todo.done == True %}
                                     <span class="text-black">Completed</span>
